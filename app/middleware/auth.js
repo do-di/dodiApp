@@ -3,9 +3,9 @@ const db = require("../models");
 const User = db.users;
 const fs = require('fs')
 const auth = async(req, res, next) => {
+    try{
     const token = req.header('Authorization').replace('Bearer ','');
     var publickey = fs.readFileSync('./Public.key');
-    try{
         var decoded = jwt.verify(token,publickey);
         const user = await User.findByPk(decoded.iss)
         if(!user){
